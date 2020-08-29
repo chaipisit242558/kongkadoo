@@ -2,19 +2,26 @@
 $idusername = $_SESSION["idusername"];
 include 'header.php';
 include_once 'config.php';
-
-// $search = "%.$_POST['search'].%";
+//================== select review =======================
+echo $_POST['search'];
 if (isset($_POST['search'])) {
-    $search = '%' . $_POST['search'] . '%';
-    $sql = 'SELECT * from shop WHERE (shop_name LIKE"' . $search . '") or (shop_phone LIKE "' . $search . '")or (shop_email LIKE "' . $search . '")or (shop_explain LIKE "' . $search . '") order by idshop desc';
-    //echo $sql;
+    $search = $_POST['search'];
+    $sql = 'SELECT * FROM review where (topic LIKE"' . $search . '") or (content LIKE "' . $search . '") and idmember="' . $idusername . '"ORDER BY idreview DESC';
 } else {
-    $sql = 'SELECT * from shop order by idshop desc';
+
+    $sql = 'SELECT * FROM review where idmember="' . $idusername . '"ORDER BY idreview DESC';
 }
+
 $result = mysql_query($sql) or die(mysql_error());
-$i = 1;
+
+//================== select comment review ==================
+// $sql = 'SELECT * FROM comment where idmember="' . $idusername . '"';
+// $result = mysql_query($sql) or die(mysql_error());
+//$row = mysql_fetch_array($result); // ดึงข้อมูลออกมาแค่ row เดียว
 
 ?>
+
+
 <div class="container">
     <div class="row">
         <div class="col-sm col-md col-lg col-xl">
@@ -32,17 +39,20 @@ $i = 1;
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
 
-
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
                             </li>
-                            <?php if ($idusername == "admine") {?>
+
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" href="#">ร้านค้า <span class="sr-only">(current)</span></a>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
                                         class="sr-only">(current)</span></a>
-                            </li>
-                            <?php }?>
+                            </li> -->
+
 
 
                         </ul>
@@ -85,69 +95,69 @@ $i = 1;
         </div>
     </div>
 </div>
+
 <br>
 <br>
-<!-- <div align="center"> -->
-<p></P>
 <div class="container">
     <div class="row">
         <div class=col-2></div>
-        <div class=col-8>
-            <form id="formsearch" name="formsearch" method="post" action="index.php" class="form-inline my-4 my-lg-0">
-
-                <!-- <div align="center" class="input-box" checkfield="#iddepartment" checkrule="number" checkerror="number only!!!"> -->
-                <!-- <div align="center" class="input-box" checkfield="#topic" > -->
-
-                <input name="search" type="text" id="search" class="form-control mr-sm-2"
-                    placeholder="ค้นหาร้าน สถานที่" />
-                <!-- <input type="submit" name="Submit" class="btn btn-primary" value="ค้นหา" onclick="javascript: return aw_check('#form1');"/> -->
+        <div class=col-6>
+            <form id="formsearch" name="formsearch" method="POST" action="index.php" class="form-inline my-4 my-lg-0">
+                <input name="search" type="text" id="search" class="form-control mr-sm-2" placeholder="ค้นหารีวิว" />
                 <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
                         aria-hidden="true"></i>ค้นหา</button>
-
-                <!-- <span class="check"></span>
-          <span class="error"></span> -->
-                <!-- </div> -->
             </form>
         </div>
     </div>
+</div>
 
-    <!-- <hr width="60%" />
-  <p>&nbsp;</p> -->
-    <!-- </div> -->
-    <!-- <H3 align="center" class="style2">รายการข้อมูลรีวิว</H3>
--->
+<br>
+<div class="container">
     <div class="row">
         <div class="col-2"></div>
-        <div class="col-8">
-            <br>
+        <div class="col-10">
+
+
+
+            <?php while ($row = mysql_fetch_assoc($result)) {?>
+            <div class="card">
+                <!-- <div class="card-header text-white bg-success mb-3">
+                    <?php //echo "หัวข้อรีวิว : <a href='manage_comment.php?idreview=" . $row['idreview'] . "'>" . $row['topic'] . "</a>"; ?>
+                </div> -->
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <?php echo " <a href='manage_comment.php?idreview=" . $row['idreview'] . "'>" . $row['topic'] . "</a>"; ?>
+                    </h5>
+                    <p class="card-text">
+                        <?php echo "<a href='manage_comment.php?idreview=" . $row['idreview'] . "'>" . $row['content'] . "</a>"; ?>
+                    </p>
+                    <!-- <img width="200" height="200" src="Image/<?php// echo $row['pic']; ?>" alt="..."
+                        class="img-thumbnail"> -->
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+                <!-- <div class="card-footer text-white bg-success">
+                    <?php// echo "รีวิวโดย : " . $row['idmember']; ?>
+                    <?php// echo "<a href='manage_comment.php?idreview=" . $row['idreview'] . "'>แสดงความคิดเห็น </a>"; ?>
+                </div> -->
+            </div>
+            <p></p>
+
             <?php
-
-while ($row = mysql_fetch_assoc($result)) {
-
-    echo "<div class='card'>";
-    echo "<div class='card-body text-white bg-light'>";
-    //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
-    echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a></H5>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_explain'] . "</a></p>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='manage_review.php?idshop=" . $row['idshop'] . "'>" . $row['shop_address'] . "</a></p>";
-
-    echo "</div>";
-    echo "</div>";
-    echo "<p></p>";
-
-    $i++;
-
 }
-
 mysql_free_result($result);
 mysql_close($conn);
+
 ?>
 
         </div>
     </div>
 </div>
+
+
+
+
+
+
 
 
 <?php include 'footer.php';?>
