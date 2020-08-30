@@ -14,5 +14,5 @@ function autolink($temp)
     return ($temp);
 
 }
-$string = "gkdfs www.win";
+$string = "gkdfs www.win หกะดหก";
 echo autolink($string);

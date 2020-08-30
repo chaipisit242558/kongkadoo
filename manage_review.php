@@ -79,7 +79,7 @@ if (isset($_GET['idshop'])) {
 
 
                             </ul>
-                            <form id="formsearch" name="formsearch" method="post" action="index.php"
+                            <form id="formsearch" name="formsearch" method="post" action="search_file.php"
                                 class="form-inline my-4 my-lg-0">
                                 <input name="search" type="text" id="search" class="form-control mr-sm-2"
                                     placeholder="ค้นหาร้าน สถานที่" />

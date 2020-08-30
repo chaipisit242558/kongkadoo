@@ -6,20 +6,15 @@ include_once 'config.php';
 // $search = "%.$_POST['search'].%";
 if (isset($_POST['search'])) {
     $search = '%' . $_POST['search'] . '%';
-    $sql = 'SELECT * from review where (topic LIKE"' . $search . '")';
-    $sql .= 'or (content LIKE "' . $search . '")order by idreview desc';
-
-    // $sql = 'SELECT * from shop s,review r WHERE s.idshop=r.idshop and  (s.shop_name LIKE"' . $search . '") or (s.shop_phone LIKE "' . $search . '")';
-    // $sql .= 'or (s.shop_email LIKE "' . $search . '")or (s.shop_explain LIKE "' . $search . '")or (r.topic LIKE "' . $search . '") ';
-    // $sql .= 'or (r.content LIKE "' . $search . '")order by s.idshop desc';
-    echo $sql;
-
-} else {
-    //$sql = 'SELECT * from shop order by idshop desc';
     $sql = 'SELECT s.idshop as idshop,s.shop_name as sn,s.shop_explain as sex,s.shop_email as sem,s.shop_phone as sph,d.DISTRICT_NAME as sdi,a.AMPHUR_NAME as sam,p.PROVINCE_NAME as spr,g.GEO_NAME as sgn,ct.country_name_th as scn';
     $sql .= ' FROM shop s ,district d,amphur a,province p,geography g,country ct';
-    $sql .= ' WHERE s.shop_district=d.DISTRICT_ID and s.shop_amphur=a.AMPHUR_ID and s.shop_province=p.PROVINCE_ID and s.shop_geography=g.GEO_ID and s.shop_country=ct.idcountry order by s.idshop desc';
+    $sql .= ' WHERE (s.shop_district=d.DISTRICT_ID) and (s.shop_amphur=a.AMPHUR_ID) and (s.shop_province=p.PROVINCE_ID) and (s.shop_geography=g.GEO_ID) and (s.shop_country=ct.idcountry)';
+    $sql .= ' and (s.shop_name LIKE"' . $search . '") or (s.shop_phone LIKE "' . $search . '") or (s.shop_email LIKE "' . $search . '") or (s.shop_explain LIKE "' . $search . '")';
+    // $sql .= ' or (d.DISTRICT_NAME LIKE "' . $search . '") or (a.AMPHUR_NAME LIKE "' . $search . '") or (p.PROVINCE_NAME LIKE "' . $search . '") or (g.GEO_NAME LIKE "' . $search . '")';
+    // $sql .= ' or (ct.country_name_th LIKE "' . $search . '") order by s.idshop desc';
+
     echo $sql;
+
 }
 $result = mysql_query($sql) or die(mysql_error());
 $i = 1;
@@ -127,24 +122,60 @@ $i = 1;
 
 while ($row = mysql_fetch_assoc($result)) {
 
-    echo "<div class='card'>";
-    echo "<div class='card-body text-white bg-light'>";
-    //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
-    echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sn'] . "</a></H5>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sex'] . "</a></p>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sph'] . "  " . $row['sem'] . "</a></p>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sdi'] . "  " . $row['sam'] . "  " . $row['spr'] . "  " . $row['sgn'] . "  " . $row['scn'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='manage_review.php?idshop=" . $row['idshop'] . "'>" . $row['shop_address'] . "</a></p>";
+    if ($i == 1) {
+        echo "<div class='card'>";
+        echo "<div class='card-header text-white bg-info mb-3'>";
+        echo "ชื่อร้าน : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sn'] . "</a>";
 
-    echo "</div>";
-    echo "</div>";
-    echo "<p></p>";
-    echo "<p></p>";
+        echo "</div>";
+        echo "<div class='card-body text-white bg-light'>";
+        //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
+        echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sn'] . "</a></H5>";
+        echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sex'] . "</a></p>";
+        echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sph'] . "  " . $row['sem'] . "</a></p>";
+        echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sdi'] . "  " . $row['sam'] . "  " . $row['spr'] . "  " . $row['sgn'] . "  " . $row['scn'] . "</a></p>";
+        //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" .$row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>" ;
+        //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_email'] . "</a></p>" ;
+        //echo "<p class='card-text'><a href='manage_review.php?idshop=" . $row['idshop'] . "'>" . $row['shop_address'] . "</a></p>" ; echo "</div>" ; echo "</div>" ;
+        echo "</div>";
+        echo "</div>";
+        echo "<p></p>";
+        echo "<p></p>";
+    } else {
+        echo "<div class='card'>";
+        echo "<div class='card-body text-white bg-light'>";
+        //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
+        echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sn'] . "</a></H5>";
+        echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sex'] . "</a></p>";
+        echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sph'] . "  " . $row['sem'] . "</a></p>";
+        echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sdi'] . "  " . $row['sam'] . "  " . $row['spr'] . "  " . $row['sgn'] . "  " . $row['scn'] . "</a></p>";
+        //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>" ;
+        //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_email'] . "</a></p>" ;
+        //echo "<p class='card-text'><a href='manage_review.php?idshop=" . $row['idshop'] . "'>" . $row['shop_address'] . "</a></p>" ; echo "</div>" ;
+        echo "</div>";
+        echo "</div>";
+        echo "<p></p>";
+        echo "<p></p>";
+    }
+/*
+echo "<div class='card'>";
+echo "<div class='card-header text-white bg-info mb-3'>";
+echo "ชื่อร้าน : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['topic'] . "</a>";
+echo "</div>";
+echo "<div class='card-body'>";
+echo "<p class='card-text'><a href='shop_profile.php?idshop="
+. $row['idshop'] . "'>" . $row['content'] . "</a></p>";
+echo "<p class='card-text'>";
+//echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
 
-    $i++;
+//echo"<img width='200' height='200' src="Image/"". $row['shop_pic']". class='img-thumbnail'>";
 
+echo " </div>";
+echo "<div class='card-footer text-white bg-info'>";
+// echo "<?php echo "ร้านคุณ : <a href='member_profile.php?idmember=" . $row['shop_username'] . "'>" . $row['shop_username'] . "</a>"";
+echo "</div>";
+echo "</div>";
+ */
 }
 
 mysql_free_result($result);

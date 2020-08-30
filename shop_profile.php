@@ -76,7 +76,7 @@ $j4 = 1;
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
                             </li>
-                            <?php if ($idusername == "admine") {?>
+                            <?php if ($idusername == "admin") {?>
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
                                         class="sr-only">(current)</span></a>
@@ -85,7 +85,7 @@ $j4 = 1;
 
 
                         </ul>
-                        <form id="formsearch" name="formsearch" method="post" action="index.php"
+                        <form id="formsearch" name="formsearch" method="post" action="search_file.php"
                             class="form-inline my-4 my-lg-0">
                             <input name="search" type="text" id="search" class="form-control mr-sm-2"
                                 placeholder="ค้นหาร้าน สถานที่" />
