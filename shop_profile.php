@@ -71,16 +71,11 @@ $j4 = 1;
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
 
+
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
                             </li>
-
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="shop_list.php">ร้านค้า <span
-                                        class="sr-only">(current)</span></a>
-                            </li> -->
-
                             <?php if ($idusername == "admine") {?>
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
@@ -89,8 +84,14 @@ $j4 = 1;
                             <?php }?>
 
 
-
                         </ul>
+                        <form id="formsearch" name="formsearch" method="post" action="index.php"
+                            class="form-inline my-4 my-lg-0">
+                            <input name="search" type="text" id="search" class="form-control mr-sm-2"
+                                placeholder="ค้นหาร้าน สถานที่" />
+                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
+                                    aria-hidden="true"></i>ค้นหา</button>
+                        </form>
 
                         <ul class="navbar-nav ml-auto">
                             <!-- ตรวจสอบเงื่อนไขที่ว่า ตัวแปร $_SESSION['id'] ได้ถูกกำหนดขึ้นมาหรือไม่ -->
@@ -159,21 +160,21 @@ $j4 = 1;
                 </div>
             </div>
 
-            <!--<img src=".'Image/'.<?php $row['pic']?>." alt="..." class="img-thumbnail">-->
+            <!--<img src=".'Image/'.<?php //$row['pic']?>." alt="..." class="img-thumbnail">-->
             <!-- </p> -->
 
             <!-- // form Comment -->
             <p>
-                <H5>แสดงความคิดเห็นต่อร้านค้า</H5>
-                <form name="comment" action="shopcomment_insert_process.php" method="post" class="form-horizontal">
-                    <textarea name="tarcomment" class="form-control"></textarea>
-                    <p></p>
-                    <button type="submit" class="btn btn-primary">แสดงความคิดเห็น</button>
-                    <input type="hidden" id="idshop" name="idshop" value="<?php echo $idshop ?>">
-                    <input type="hidden" id="idshop" name="topic" value="<?php echo $row['shop_name'] ?>">
-                    <input type="hidden" id="idshop" name="idmember" value="<?php echo $idusername ?>">
+            <H5>แสดงความคิดเห็นต่อร้านค้า</H5>
+            <form name="comment" action="shopcomment_insert_process.php" method="post" class="form-horizontal">
+                <textarea name="tarcomment" class="form-control"></textarea>
+                <p></p>
+                <button type="submit" class="btn btn-primary">แสดงความคิดเห็น</button>
+                <input type="hidden" id="idshop" name="idshop" value="<?php echo $idshop ?>">
+                <input type="hidden" id="idshop" name="topic" value="<?php echo $row['shop_name'] ?>">
+                <input type="hidden" id="idshop" name="idmember" value="<?php echo $idusername ?>">
 
-                </form>
+            </form>
             </p>
 
             <?php

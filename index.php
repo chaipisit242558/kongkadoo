@@ -6,8 +6,11 @@ include_once 'config.php';
 // $search = "%.$_POST['search'].%";
 if (isset($_POST['search'])) {
     $search = '%' . $_POST['search'] . '%';
-    $sql = 'SELECT * from shop WHERE (shop_name LIKE"' . $search . '") or (shop_phone LIKE "' . $search . '")or (shop_email LIKE "' . $search . '")or (shop_explain LIKE "' . $search . '") order by idshop desc';
-    //echo $sql;
+    $sql = 'SELECT * from shop s,review r WHERE s.idshop=r.idshop or  (s.shop_name LIKE"' . $search . '") or (s.shop_phone LIKE "' . $search . '")';
+    $sql .= 'or (s.shop_email LIKE "' . $search . '")or (s.shop_explain LIKE "' . $search . '")or (r.topic LIKE "' . $search . '") ';
+    $sql .= 'or (r.content LIKE "' . $search . '")order by s.idshop desc';
+    echo $sql;
+
 } else {
     $sql = 'SELECT * from shop order by idshop desc';
 }
@@ -37,7 +40,7 @@ $i = 1;
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
                             </li>
-                            <?php if ($idusername == "admine") {?>
+                            <?php if ($idusername == "admin") {?>
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
                                         class="sr-only">(current)</span></a>
@@ -46,6 +49,13 @@ $i = 1;
 
 
                         </ul>
+                        <form id="formsearch" name="formsearch" method="post" action="index.php"
+                            class="form-inline my-4 my-lg-0">
+                            <input name="search" type="text" id="search" class="form-control mr-sm-2"
+                                placeholder="ค้นหาร้าน สถานที่" />
+                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
+                                    aria-hidden="true"></i>ค้นหา</button>
+                        </form>
 
                         <ul class="navbar-nav ml-auto">
                             <!-- ตรวจสอบเงื่อนไขที่ว่า ตัวแปร $_SESSION['id'] ได้ถูกกำหนดขึ้นมาหรือไม่ -->
@@ -93,21 +103,7 @@ $i = 1;
     <div class="row">
         <div class=col-2></div>
         <div class=col-8>
-            <form id="formsearch" name="formsearch" method="post" action="index.php" class="form-inline my-4 my-lg-0">
 
-                <!-- <div align="center" class="input-box" checkfield="#iddepartment" checkrule="number" checkerror="number only!!!"> -->
-                <!-- <div align="center" class="input-box" checkfield="#topic" > -->
-
-                <input name="search" type="text" id="search" class="form-control mr-sm-2"
-                    placeholder="ค้นหาร้าน สถานที่" />
-                <!-- <input type="submit" name="Submit" class="btn btn-primary" value="ค้นหา" onclick="javascript: return aw_check('#form1');"/> -->
-                <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
-                        aria-hidden="true"></i>ค้นหา</button>
-
-                <!-- <span class="check"></span>
-          <span class="error"></span> -->
-                <!-- </div> -->
-            </form>
         </div>
     </div>
 
@@ -125,19 +121,22 @@ $i = 1;
 while ($row = mysql_fetch_assoc($result)) {
 
     echo "<div class='card'>";
-    echo "<div class='card-body text-white bg-light'>";
-    //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
-    echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a></H5>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_explain'] . "</a></p>";
+    echo "<div class='card-header text-white bg-info mb-3'>";
+    echo "ชื่อร้าน : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a>";
+    echo "</div>";
+    echo "<div class='card-body'>";
+    echo "<p class='card-text'><a href='shop_profile.php?idshop="
+        . $row['idshop'] . "'>" . $row['shop_explain'] . "</a></p>";
+    echo "<p class='card-text'>";
     echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='manage_review.php?idshop=" . $row['idshop'] . "'>" . $row['shop_address'] . "</a></p>";
 
+    //echo"<img width='200' height='200' src="Image/"". $row['shop_pic']". class='img-thumbnail'>";
+
+    echo " </div>";
+    echo "<div class='card-footer text-white bg-info'>";
+    // echo "<?php echo "ร้านคุณ : <a href='member_profile.php?idmember=" . $row['shop_username'] . "'>" . $row['shop_username'] . "</a>"";
     echo "</div>";
     echo "</div>";
-    echo "<p></p>";
-
-    $i++;
 
 }
 

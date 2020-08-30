@@ -24,28 +24,29 @@ $j = 1;
 //============================== select table comment ================================
 
 ?>
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">Kongkadoo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
-                </li>
+<div class="container">
+    <div class="row">
+        <div class="col-sm col-md col-lg col-xl">
+            <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="index.php">Kongkadoo</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
+                            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="manage_review.php">สร้างรีวิว <span class="sr-only">(current)</span></a>
-                </li>
 
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="shop_list.php">ร้านค้า <span class="sr-only">(current)</span></a>
-                </li>
-
-                <?php if ($idusername == "admine") {?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <?php if ($idusername == "admine") {?>
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
                                         class="sr-only">(current)</span></a>
@@ -53,43 +54,53 @@ $j = 1;
                             <?php }?>
 
 
+                        </ul>
+                        <form id="formsearch" name="formsearch" method="post" action="index.php"
+                            class="form-inline my-4 my-lg-0">
+                            <input name="search" type="text" id="search" class="form-control mr-sm-2"
+                                placeholder="ค้นหาร้าน สถานที่" />
+                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
+                                    aria-hidden="true"></i>ค้นหา</button>
+                        </form>
 
-            </ul>
-
-            <ul class="navbar-nav ml-auto">
-                <!-- ตรวจสอบเงื่อนไขที่ว่า ตัวแปร $_SESSION['id'] ได้ถูกกำหนดขึ้นมาหรือไม่ -->
-                <?php if (isset($_SESSION['id'])) {?>
-
-
-
-                <li class="nav-item">
-                    <span class="navbar-text">
-                        <?php echo "ยินดีต้อนรับคุณ : " . $_SESSION['fullname']; ?>
-                    </span>
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""><img src="Image/<?php echo $_SESSION['pic']; ?>" alt="" width="25"
-                            height="25"> <span class="sr-only">(current)</span></a>
-                </li>
+                        <ul class="navbar-nav ml-auto">
+                            <!-- ตรวจสอบเงื่อนไขที่ว่า ตัวแปร $_SESSION['id'] ได้ถูกกำหนดขึ้นมาหรือไม่ -->
+                            <?php if (isset($_SESSION['id'])) {?>
 
 
-                <li class="nav-item">
 
-                    <a class="nav-link" href="logout.php">ออกจากระบบ <span class="sr-only">(current)</span></a>
-                </li>
-                <?php } else {?>
-                <li class="nav-item">
-                    <a class="btn btn-primary" href="login.php">เข้าสู่ระบบ</a>
-                    <a class="btn btn-warning" href="register.php">สมัครสมาชิก</a>
-                </li>
-                <?php }?>
-            </ul>
+                            <li class="nav-item">
+                                <span class="navbar-text">
+                                    <?php echo "ยินดีต้อนรับคุณ : " . $_SESSION['fullname']; ?>
+                                </span>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href=""><img src="Image/<?php echo $_SESSION['pic']; ?>" alt=""
+                                        width="25" height="25"> <span class="sr-only">(current)</span></a>
+                            </li>
 
 
+                            <li class="nav-item">
+
+                                <a class="nav-link" href="logout.php">ออกจากระบบ <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <?php } else {?>
+                            <li class="nav-item">
+                                <a class="btn btn-primary" href="login.php">เข้าสู่ระบบ</a>
+                                <a class="btn btn-warning" href="register.php">สมัครสมาชิก</a>
+                            </li>
+                            <?php }?>
+                        </ul>
+
+
+                    </div>
+                </div>
+            </nav>
         </div>
     </div>
-</nav>
+</div>
 
 ิ<br>
 <br>
