@@ -12,14 +12,16 @@ if (isset($_POST['search'])) {
     // $sql = 'SELECT * from shop s,review r WHERE s.idshop=r.idshop and  (s.shop_name LIKE"' . $search . '") or (s.shop_phone LIKE "' . $search . '")';
     // $sql .= 'or (s.shop_email LIKE "' . $search . '")or (s.shop_explain LIKE "' . $search . '")or (r.topic LIKE "' . $search . '") ';
     // $sql .= 'or (r.content LIKE "' . $search . '")order by s.idshop desc';
-    echo $sql;
+    //echo $sql;
 
 } else {
-    //$sql = 'SELECT * from shop order by idshop desc';
-    $sql = 'SELECT s.idshop as idshop,s.shop_name as sn,s.shop_explain as sex,s.shop_email as sem,s.shop_phone as sph,d.DISTRICT_NAME as sdi,a.AMPHUR_NAME as sam,p.PROVINCE_NAME as spr,g.GEO_NAME as sgn,ct.country_name_th as scn';
-    $sql .= ' FROM shop s ,district d,amphur a,province p,geography g,country ct';
-    $sql .= ' WHERE s.shop_district=d.DISTRICT_ID and s.shop_amphur=a.AMPHUR_ID and s.shop_province=p.PROVINCE_ID and s.shop_geography=g.GEO_ID and s.shop_country=ct.idcountry order by s.idshop desc';
-    echo $sql;
+    $sql = 'SELECT * from shop order by idshop desc';
+
+    // //$sql = 'SELECT * from shop order by idshop desc';
+    // $sql = 'SELECT s.idshop as idshop,s.shop_name as sn,s.shop_explain as sex,s.shop_email as sem,s.shop_phone as sph,d.DISTRICT_NAME as sdi,a.AMPHUR_NAME as sam,p.PROVINCE_NAME as spr,g.GEO_NAME as sgn,ct.country_name_th as scn';
+    // $sql .= ' FROM shop s ,district d,amphur a,province p,geography g,country ct';
+    // $sql .= ' WHERE s.shop_district=d.DISTRICT_ID and s.shop_amphur=a.AMPHUR_ID and s.shop_province=p.PROVINCE_ID and s.shop_geography=g.GEO_ID and s.shop_country=ct.idcountry order by s.idshop desc';
+
 }
 $result = mysql_query($sql) or die(mysql_error());
 $i = 1;
@@ -42,6 +44,9 @@ $i = 1;
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="review.php">รีวิว <span class="sr-only">(current)</span></a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
@@ -52,13 +57,18 @@ $i = 1;
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
                                         class="sr-only">(current)</span></a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="register_admin.php">จัดการสมาชิก <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
                             <?php }?>
 
 
                         </ul>
                         <form id="formsearch" name="formsearch" method="post" action="search_file.php"
                             class="form-inline my-4 my-lg-0">
-                            <input name="search" type="text" id="search" class="form-control mr-sm-2"
+                            <input name="search" type="text" id="search" required class="form-control mr-sm-2"
                                 placeholder="ค้นหาร้าน สถานที่" />
                             <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
                                     aria-hidden="true"></i>ค้นหา</button>
@@ -104,21 +114,16 @@ $i = 1;
 </div>
 <br>
 <br>
-<!-- <div align="center"> -->
-<p></P>
+
 <div class="container">
     <div class="row">
         <div class=col-2></div>
-        <div class=col-8>
-
+        <div class=col-4>
+            <div class="alert alert-primary" role="alert">
+                <h4>รายการร้านค้า สถานที่ ...</h4>
+            </div>
         </div>
     </div>
-
-    <!-- <hr width="60%" />
-  <p>&nbsp;</p> -->
-    <!-- </div> -->
-    <!-- <H3 align="center" class="style2">รายการข้อมูลรีวิว</H3>
--->
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
@@ -128,12 +133,12 @@ $i = 1;
 while ($row = mysql_fetch_assoc($result)) {
 
     echo "<div class='card'>";
-    echo "<div class='card-body text-white bg-light'>";
+    echo "<div class='card-body text-white '>";
     //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
-    echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sn'] . "</a></H5>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sex'] . "</a></p>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sph'] . "  " . $row['sem'] . "</a></p>";
-    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['sdi'] . "  " . $row['sam'] . "  " . $row['spr'] . "  " . $row['sgn'] . "  " . $row['scn'] . "</a></p>";
+    echo "<H5 class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a></H5>";
+    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_explain'] . "</a></p>";
+    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
+    echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_district'] . "  " . $row['shop_amphur'] . "  " . $row['shop_province'] . "  " . $row['shop_geography'] . "  " . $row['shop_country'] . "</a></p>";
     //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
     //echo "<p class='card-text'><a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_email'] . "</a></p>";
     //echo "<p class='card-text'><a href='manage_review.php?idshop=" . $row['idshop'] . "'>" . $row['shop_address'] . "</a></p>";

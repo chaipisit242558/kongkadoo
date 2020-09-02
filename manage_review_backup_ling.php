@@ -71,10 +71,7 @@ if (isset($_GET['idshop'])) {
                                     <a class="nav-link" href="index.php">หน้าแรก <span
                                             class="sr-only">(current)</span></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="review.php">รีวิว <span
-                                            class="sr-only">(current)</span></a>
-                                </li>
+
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
@@ -148,7 +145,7 @@ if (isset($_GET['idshop'])) {
         <div class="row">
             <div class="col-md-8 mx-auto mt-5">
                 <div class="card">
-                    <form action="manage_createreview_insert.php" method="POST" enctype="multipart/form-data">
+                    <form action="manage_review_insert.php" method="POST" enctype="multipart/form-data">
                         <div class="card-header text-center">
                             สร้างรีวิว
                         </div>
@@ -157,9 +154,9 @@ if (isset($_GET['idshop'])) {
                             <div class="form-group row">
                                 <label for="topic" class="col-sm-3 col-form-label">ชื่อเรื่อง/หมวดหมู่</label>
                                 <div class="col-sm-9">
-                                    <input type='text' id='crereview_topic' name='crereview_topic' class="form-control"
-                                        required>
+                                    <input type='text' id='autocomplete' name='autocomplete' class="form-control" re>
 
+                                    <input type='hidden' id='selectuser_id' name='selectuser_id'>
                                 </div>
                             </div>
 
@@ -168,8 +165,8 @@ if (isset($_GET['idshop'])) {
                             <div class="form-group row">
                                 <label for="content" class="col-sm-3 col-form-label">เนื้อหารีวิว</label>
                                 <div class="col-sm-9">
-                                    <textarea cols="10" rows="5" class="form-control" id="crereview_content"
-                                        name="crereview_content" required></textarea>
+                                    <textarea cols="10" rows="5" class="form-control" id="content" name="content"
+                                        required></textarea>
                                 </div>
                             </div>
                             <!-- <div class="form-group row">

@@ -7,6 +7,8 @@ if (isset($_POST['shop_name'])) {
     $shop_email = $_POST['shop_email'];
     $shop_explain = $_POST['shop_explain'];
     $shop_country = $_POST['country'];
+    //$countryname = $_POST['countryname'];
+    //echo $countryname;
     $shop_geography = $_POST['geography'];
     $shop_province = $_POST['province'];
     $shop_amphur = $_POST['amphur'];

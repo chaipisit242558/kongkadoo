@@ -4,12 +4,10 @@ include_once 'config.php';
 $idusername = $_SESSION["idusername"];
 
 //===========================  select table shop ===============================
-// $search = "%.$_POST['search'].%";
+
 if (isset($_GET['idshop'])) {
     $idshop = $_GET['idshop'];
-    //echo $idreview;
     $sql = 'SELECT * from shop WHERE idshop="' . $idshop . '"';
-    //echo $sql;
     $result = mysql_query($sql) or die(mysql_error());
     $i = 1;
 
@@ -18,41 +16,29 @@ if (isset($_GET['idshop'])) {
 }
 
 //================================select table shopcomment=================================================
-$sql2 = 'SELECT * from review WHERE idshop=' . $idshop . '';
-//echo $sql2;
+$sql2 = 'SELECT * from review WHERE idshop=' . $idshop . ' order by idreview desc';
 $result2 = mysql_query($sql2) or die(mysql_error());
 $j = 1;
 
-//==============================================================
-/*
-//===========================  select table review ===============================
-if (isset($_GET['idreview'])) {
-$idreview = $_GET['idreview'];
-$sql3 = 'SELECT s.idshop as sids,s.shop_name as sn,r.idreview as rid,r.topic as rt,r.content as rc,r.pic as rp, r.idmember as idm FROM shop s, review r WHERE s.idshop=r.idshop and r.idreview="' . $idreview . '" ORDER BY r.idshop';
-$result3 = mysql_query($sql3) or die(mysql_error());
-$row3 = mysql_fetch_array($result3); // ดึงข้อมูลออกมาแค่ row เดียว
-mysql_free_result($result3);
+function autolink($temp)
+{
 
-//============================== select table comment ===================================================
-$sql4 = 'SELECT * from comment WHERE idreview=' . $idreview . '';
-$result4 = mysql_query($sql4) or die(mysql_error());
-$j4 = 1;
+    //สร้างลิงค์อีเมล์
+    $temp = preg_replace("#(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\"><font color=#FF6600>\\2@\\3</font></a>", $temp);
 
-//==============================================================
-} else {
+    // สร้างลิ้งค์ http://
+    $temp = preg_replace("#(^|[\n ])([\w]+?://[^ \"\n\r\t<]*)#is", "\\1<a href=\"\\2\" target=\"_blank\"><font color=#FF6600>\\2</font></a>", $temp);
 
-$sql3 = 'SELECT s.idshop as sids,s.shop_name as sn,r.idreview as rid,r.topic as rt,r.content as rc,r.pic as rp, r.idmember as idm FROM shop s, review r WHERE s.idshop=r.idshop and r.idshop="' . $idshop . '" ORDER BY r.idshop';
-$result3 = mysql_query($sql3) or die(mysql_error());
-$row3 = mysql_fetch_array($result3); // ดึงข้อมูลออกมาแค่ row เดียว
-$num = mysql_num_rows($result3);
+    //สร้างลิ้ล์ www.
+    $temp = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r<]*)#is", "\\1<a href=\"http://\\2\" target=\"_blank\"><font color=#FF6600>\\2</font></a>", $temp);
 
-//============================== select table comment ===================================================
-$sql4 = 'SELECT * from comment WHERE idreview=' . $idreview . '';
-$result4 = mysql_query($sql4) or die(mysql_error());
-$j4 = 1;
+//สร้างลิ้ล์ ร้าน.
+    $temp = preg_replace("#(^|[\n ])((ร้าน)\.[^ \"\t\n\r<]*)#is", "\\1<a href=\"http://\\2\" target=\"_blank\"><font color=#FF6600>\\2</font></a>", $temp);
+
+    return ($temp);
 
 }
- */
+
 ?>
 <div class="container">
     <div class="row">
@@ -70,7 +56,9 @@ $j4 = 1;
                             <li class="nav-item active">
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="review.php">รีวิว <span class="sr-only">(current)</span></a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
@@ -81,13 +69,18 @@ $j4 = 1;
                                 <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
                                         class="sr-only">(current)</span></a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="register_admin.php">จัดการสมาชิก <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
                             <?php }?>
 
 
                         </ul>
                         <form id="formsearch" name="formsearch" method="post" action="search_file.php"
                             class="form-inline my-4 my-lg-0">
-                            <input name="search" type="text" id="search" class="form-control mr-sm-2"
+                            <input name="search" type="text" id="search" required class="form-control mr-sm-2"
                                 placeholder="ค้นหาร้าน สถานที่" />
                             <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"
                                     aria-hidden="true"></i>ค้นหา</button>
@@ -180,11 +173,12 @@ $j4 = 1;
             <?php
 
 while ($row2 = mysql_fetch_assoc($result2)) {
+    $keyword = $row2['content'];
     echo "<div class='card'>";
     echo "<div class='card-body text-white bg-info'>";
     //echo "<h6 class='card-title'>" . 'ความคิดเห็น' . $j . "</h6>";
     echo "<p class='card-text'> <a href='comment_profile.php?idreview=" . $row2['idreview'] . "'>" . $row2['content'] . "</a></p>";
-
+    //echo "<p class='card-text'> " . autolink($keyword) . "</p>";
     echo "</div>";
     echo "</div>";
     echo "<p></p>";
@@ -202,69 +196,6 @@ mysql_free_result($result2);
         </div>
     </div>
 </div>
-
-<!-- ============================ start review ==================================== -->
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-            <?php
-// if($num == 0){
-//     echo "ไม่พบข้อมูล";
-//   }else{
-
-?>
-            <div class="card">
-                <div class="card-header text-white bg-success mb-3">
-                    <?php// echo "ชื่อสถานที่ : " . $row3['sn'] . "" ?>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title"><?php// echo $row3['rt']; ?></h5>
-                    <p class="card-text"><?php// echo $row3['rc']; ?></p>
-                    <img width="200" height="200" src="Image/<?php// echo $row3['rp']; ?>" alt="..."
-                        class="img-thumbnail">
-                </div>
-                <div class="card-footer text-white bg-success">
-                    <?php// echo "รีวิวโดย : " . $row3['idm']; ?>
-                </div>
-            </div>
-
-            <p>
-                <H4>แสดงความคิดเห็นต่อรีวิว</H4>
-                <form name="comment" action="manage_comment_insert_process2.php" method="post" class="form-horizontal">
-                    <textarea name="tarcomment" class="form-control"></textarea>
-                    <p></p>
-                    <button type="submit" class="btn btn-primary">แสดงความคิดเห็น</button>
-                    <input type="hidden" id="idreview" name="idreview" value="<?php //echo $idreview ?>">
-                </form>
-            </p>
-            <?php/*
-while ($row4 = mysql_fetch_assoc($result4)) {
-    echo "<div class='card'>";
-    echo "<div class='card-body text-white bg-info'>";
-    echo "<h6 class='card-title'>" . 'ความคิดเห็น' . $j4 . "</h6>";
-    echo "<p class='card-text'>" . $row4['comment_content'] . "</p>";
-
-    echo "</div>";
-    echo "</div>";
-    echo "<p></p>";
-
-    $j4++;
-
-}
-
-mysql_free_result($result3);
-mysql_free_result($result4);
-// }
-
-*/
-?>
-
-
-
-        </div>
-    </div>
-</div> -->
 
 
 <?php mysql_close($conn);

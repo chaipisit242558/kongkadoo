@@ -1,30 +1,43 @@
 <?php session_start();
-$idusername = $_SESSION["idusername"];
 include 'header.php';
 include_once 'config.php';
+$idusername = $_SESSION["idusername"];
 
-// $search = "%.$_POST['search'].%";
-if (isset($_POST['search'])) {
-    $search = '%' . $_POST['search'] . '%';
-    $sql = 'SELECT * from createreview where (crereview_topic LIKE"' . $search . '")';
-    $sql .= 'or (crereview_content LIKE "' . $search . '")order by 	idcreatereview desc';
+//===========================  select table shop ===============================
 
-    // $sql = 'SELECT * from shop s,review r WHERE s.idcreatereview=r.idcreatereview and  (s.shop_name LIKE"' . $search . '") or (s.shop_phone LIKE "' . $search . '")';
-    // $sql .= 'or (s.shop_email LIKE "' . $search . '")or (s.shop_explain LIKE "' . $search . '")or (r.topic LIKE "' . $search . '") ';
-    // $sql .= 'or (r.content LIKE "' . $search . '")order by s.idcreatereview desc';
-    //echo $sql;
+if (isset($_GET['idcreatereview'])) {
+    $idcreatereview = $_GET['idcreatereview'];
+    $sql = 'SELECT * from createreview WHERE idcreatereview="' . $idcreatereview . '"';
+    $result = mysql_query($sql) or die(mysql_error());
+    $i = 1;
 
-} else {
-    $sql = 'SELECT * from createreview order by idcreatereview desc';
+    $row = mysql_fetch_array($result); // ดึงข้อมูลออกมาแค่ row เดียว
+    mysql_free_result($result);
+}
 
-    // //$sql = 'SELECT * from shop order by idcreatereview desc';
-    // $sql = 'SELECT s.idcreatereview as idcreatereview,s.shop_name as sn,s.shop_explain as sex,s.shop_email as sem,s.shop_phone as sph,d.DISTRICT_NAME as sdi,a.AMPHUR_NAME as sam,p.PROVINCE_NAME as spr,g.GEO_NAME as sgn,ct.country_name_th as scn';
-    // $sql .= ' FROM shop s ,district d,amphur a,province p,geography g,country ct';
-    // $sql .= ' WHERE s.shop_district=d.DISTRICT_ID and s.shop_amphur=a.AMPHUR_ID and s.shop_province=p.PROVINCE_ID and s.shop_geography=g.GEO_ID and s.shop_country=ct.idcountry order by s.idcreatereview desc';
+//================================select table shopcomment=================================================
+$sql2 = 'SELECT * from comment WHERE idreview=' . $idcreatereview . ' order by idcomment desc';
+$result2 = mysql_query($sql2) or die(mysql_error());
+$j = 1;
+
+function autolink($temp)
+{
+
+    //สร้างลิงค์อีเมล์
+    $temp = preg_replace("#(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\"><font color=#FF6600>\\2@\\3</font></a>", $temp);
+
+    // สร้างลิ้งค์ http://
+    $temp = preg_replace("#(^|[\n ])([\w]+?://[^ \"\n\r\t<]*)#is", "\\1<a href=\"\\2\" target=\"_blank\"><font color=#FF6600>\\2</font></a>", $temp);
+
+    //สร้างลิ้ล์ www.
+    $temp = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r<]*)#is", "\\1<a href=\"http://\\2\" target=\"_blank\"><font color=#FF6600>\\2</font></a>", $temp);
+
+//สร้างลิ้ล์ ร้าน.
+    $temp = preg_replace("#(^|[\n ])((ร้าน|ftp)\.[^ \"\t\n\r<]*)#is", "\\1<a href=\"http://\\2\" target=\"_blank\"><font color=#FF6600>\\2</font></a>", $temp);
+
+    return ($temp);
 
 }
-$result = mysql_query($sql) or die(mysql_error());
-$i = 1;
 
 ?>
 <div class="container">
@@ -43,10 +56,10 @@ $i = 1;
                             <li class="nav-item active">
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="review.php">รีวิว <span class="sr-only">(current)</span></a>
                             </li>
-
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
@@ -111,61 +124,79 @@ $i = 1;
         </div>
     </div>
 </div>
-<br>
-<br>
 <!-- <div align="center"> -->
-<p></P>
-<H4 align='center'>รายการรีวิว</H4>
-<div class="container">
-    <div class="row">
-        <div class=col-2></div>
-        <div class=col-8>
-            <form id="formsearch" name="formsearch" method="post" action="search_review_file.php"
-                class="form-inline my-4 my-lg-0">
-                <input name="search" type="text" id="search" required class="form-control mr-sm-2"
-                    placeholder="ค้นหารีวิว" />
-                <button class="btn btn-success my-2 my-sm-0 " type="submit"><i class="fa fa-search"
-                        aria-hidden="true"></i>ค้นหา</button>
-                <a class="btn btn-primary mx-2" href="manage_review.php" role="button">สร้างรีวิว</a>
-            </form>
+<br>
+<br>
 
-        </div>
-    </div>
+<div class="container">
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <br>
+
+            <!-- <p align="center"> -->
+            <div class="card">
+                <div class="card-header text-white bg-info mb-3">
+                    <?php echo "หัวข้อรีวิว : <a href='review_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['crereview_topic'] . "</a>" ?>
+                </div>
+                <div class="card-body">
+                    <!-- <h5 class="card-title"><?php// echo $row['topic']; ?></h5> -->
+                    <p class="card-text"><?php echo $row['crereview_content']; ?></p>
+                    <!-- <p class="card-text">
+                        <?php //echo "E-mail : " . $row['shop_email'] . "  " . "โทรศัพท์ : " . $row['shop_phone']; ?></p>
+
+                    <img width="200" height="200" src="Image/<?php //echo $row['shop_pic']; ?>" alt="..."
+                        class="img-thumbnail"> -->
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+                <div class="card-footer text-white bg-info">
+                    <?php echo "รีวิวโดย : <a href='member_profile.php?idmember=" . $row['crereview_username'] . "'>" . $row['crereview_username'] . "</a>" ?>
+                </div>
+            </div>
+
+            <!--<img src=".'Image/'.<?php //$row['pic']?>." alt="..." class="img-thumbnail">-->
+            <!-- </p> -->
+
+            <!-- // form Comment -->
+            <p>
+            <H5>แสดงความคิดเห็นต่อร้านค้า</H5>
+            <form name="comment" action="reviewcomment_insert_process.php" method="post" class="form-horizontal">
+                <textarea name="tarcomment" class="form-control"></textarea>
+                <p></p>
+                <button type="submit" class="btn btn-primary">แสดงความคิดเห็น</button>
+                <input type="hidden" id="idcreatereview" name="idcreatereview" value="<?php echo $idcreatereview ?>">
+                <input type="hidden" id="idcreatereview" name="idmember" value="<?php echo $idusername ?>">
+
+            </form>
+            </p>
+
             <?php
 
-while ($row = mysql_fetch_assoc($result)) {
-
+while ($row2 = mysql_fetch_assoc($result2)) {
+    $keyword = $row2['comment_content'];
     echo "<div class='card'>";
-    echo "<div class='card-body text-white '>";
-    //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";
-    echo "<H5 class='card-text'><a href='review_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['crereview_topic'] . "</a></H5>";
-    echo "<p class='card-text'><a href='review_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['crereview_content'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['shop_district'] . "  " . $row['shop_amphur'] . "  " . $row['shop_province'] . "  " . $row['shop_geography'] . "  " . $row['shop_country'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['shop_phone'] . "  " . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='shop_profile.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['shop_email'] . "</a></p>";
-    //echo "<p class='card-text'><a href='manage_review.php?idcreatereview=" . $row['idcreatereview'] . "'>" . $row['shop_address'] . "</a></p>";
-
+    echo "<div class='card-body text-white bg-info'>";
+    //echo "<h6 class='card-title'>" . 'ความคิดเห็น' . $j . "</h6>";
+    //echo "<p class='card-text'> <a href='comment_profile.php?idreview=" . $row2['idreview'] . "'>" . $row2['content'] . "</a></p>";
+    echo "<p class='card-text'> " . autolink($keyword) . "</p>";
     echo "</div>";
     echo "</div>";
     echo "<p></p>";
-    echo "<p></p>";
-
-    $i++;
+    $j++;
 
 }
 
-mysql_free_result($result);
-mysql_close($conn);
+mysql_free_result($result2);
+//mysql_close($conn);
+
 ?>
+
+
 
         </div>
     </div>
 </div>
 
 
-<?php include 'footer.php';?>
+<?php mysql_close($conn);
+include 'footer.php';
+?>

@@ -30,19 +30,39 @@ $i = 1;
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <!-- Script -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- jQuery UI -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
     <title>สร้างร้านค้า</title>
-
-
-
 </head>
+<script language=Javascript>
+function Inint_AJAX() {
+    try {
+        return new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {} //IE
+    try {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+    } catch (e) {} //IE
+    try {
+        return new XMLHttpRequest();
+    } catch (e) {} //Native Javascript
+    alert("XMLHttpRequest not supported");
+    return null;
+};
 
+function dochange(src, val) {
+    var req = Inint_AJAX();
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+            if (req.status == 200) {
+                document.getElementById(src).innerHTML = req.responseText; //รับค่ากลับมา
+            }
+        }
+    };
+    req.open("GET", "localtion.php?data=" + src + "&val=" + val); //สร้าง connection
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"); // set Header
+    req.send(null); //ส่งค่า
+}
+
+window.onLoad = dochange('country', -1);
+</script>
 
 <body>
 
@@ -63,10 +83,7 @@ $i = 1;
                                     <a class="nav-link" href="index.php">หน้าแรก <span
                                             class="sr-only">(current)</span></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="review.php">รีวิว <span
-                                            class="sr-only">(current)</span></a>
-                                </li>
+
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
@@ -175,36 +192,55 @@ $i = 1;
                             <div class="form-group row">
                                 <label for="country" class="col-sm-3 col-form-label">ประเทศ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="country" name="country" required>
+                                    <span id="country">
+                                        <select name="country" id="country">
+                                            <option value="0">- เลือกประเทศ -</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
-                            <!-- <input type='text' name='txtvalue' id='txtvalue'> -->
 
                             <div class="form-group row">
                                 <label for="geography" class="col-sm-3 col-form-label">ภูมิภาค</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="geography" name="geography" required>
+                                    <span id="geography">
+                                        <select name="geography" id="geography">
+                                            <option value="0">- ภูมิภาค -</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="province" class="col-sm-3 col-form-label">จังหวัด</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="province" name="province" required>
+                                    <span id="province">
+                                        <select name="province" id="province">
+                                            <option value="0">- จังหวัด -</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="amphur" class="col-sm-3 col-form-label">อำเภอ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="amphur" name="amphur" required>
+                                    <span id="amphur">
+                                        <select name="amphur" id="amphur">
+                                            <option value="0">- อำเภอ -</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="district" class="col-sm-3 col-form-label">ตำบล</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="district" name="district" required>
+                                    <span id="district">
+                                        <select name="district" id="district">
+                                            <option value="0">- ตำบล -</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
 
@@ -293,37 +329,6 @@ if ($num == 0) {
 mysql_free_result($result);
 mysql_close($conn);
 ?>
-
-
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $("#country").autocomplete({
-            source: function(request, response) {
-                // Fetch data
-                $.ajax({
-                    url: "fetchData_country.php",
-                    type: 'post',
-                    dataType: "json",
-                    data: {
-                        search: request.term
-                    },
-                    success: function(data) {
-                        response(data);
-                    }
-                });
-            },
-            select: function(event, ui) {
-                // Set selection
-                $('#country').val(ui.item.label); // display the selected text
-                //$('#selectuser_id').val(ui.item.value); // save selected id to input
-                return false;
-            }
-        });
-
-    });
-    </script>
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

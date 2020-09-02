@@ -1,5 +1,35 @@
-<?php session_start();
+﻿<?php session_start();?>
 
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- jQuery UI -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+
+
+
+
+
+
+    <?php
 include_once 'config.php';
 $idusername = $_SESSION["idusername"];
 //echo $_SESSION["idusername"];
@@ -23,37 +53,7 @@ if (isset($_GET['idshop'])) {
 }
 
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Document</title>
-
-
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <!-- Script -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- jQuery UI -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-</head>
-
-<body>
-
+    <!-- ============================ navigator ============================= -->
     <div class="container">
         <div class="row">
             <div class="col-sm col-md col-lg col-xl">
@@ -71,10 +71,7 @@ if (isset($_GET['idshop'])) {
                                     <a class="nav-link" href="index.php">หน้าแรก <span
                                             class="sr-only">(current)</span></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="review.php">รีวิว <span
-                                            class="sr-only">(current)</span></a>
-                                </li>
+
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
@@ -83,11 +80,6 @@ if (isset($_GET['idshop'])) {
                                 <?php if ($idusername == "admin") {?>
                                 <li class="nav-item">
                                     <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
-                                            class="sr-only">(current)</span></a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="register_admin.php">จัดการสมาชิก <span
                                             class="sr-only">(current)</span></a>
                                 </li>
                                 <?php }?>
@@ -143,33 +135,39 @@ if (isset($_GET['idshop'])) {
 
     <br>
     <br>
+    <!-- ================ สร้างรีวิวิ======================== -->
 
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto mt-5">
                 <div class="card">
-                    <form action="manage_createreview_insert.php" method="POST" enctype="multipart/form-data">
+                    <form action="manage_review_insert.php" method="POST" enctype="multipart/form-data">
                         <div class="card-header text-center">
                             สร้างรีวิว
                         </div>
                         <div class="card-body">
+                            <div class="form-group row">
+                                <label for="topic" class="col-sm-3 col-form-label">ชื่อเรื่อง/หมวดหมู่</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="topic" name="topic" required>
+                                    <!-- <input type="text" class="form-control" id="topic" name="topic" required> -->
+                                </div>
+                            </div>
 
                             <div class="form-group row">
                                 <label for="topic" class="col-sm-3 col-form-label">ชื่อเรื่อง/หมวดหมู่</label>
                                 <div class="col-sm-9">
-                                    <input type='text' id='crereview_topic' name='crereview_topic' class="form-control"
-                                        required>
-
+                                    <input type='text' id='autocomplete' name="autocomplete">
+                                    <input type='text' id='selectuser_id' name="selectuser_id">
+                                    <!-- <input type="text" class="form-control" id="topic" name="topic" required> -->
                                 </div>
                             </div>
-
-
 
                             <div class="form-group row">
                                 <label for="content" class="col-sm-3 col-form-label">เนื้อหารีวิว</label>
                                 <div class="col-sm-9">
-                                    <textarea cols="10" rows="5" class="form-control" id="crereview_content"
-                                        name="crereview_content" required></textarea>
+                                    <textarea cols="10" rows="5" class="form-control" id="content" name="content"
+                                        required></textarea>
                                 </div>
                             </div>
                             <!-- <div class="form-group row">
@@ -185,6 +183,7 @@ if (isset($_GET['idshop'])) {
                         </div>
                         <div class="card-footer text-center">
                             <input type="submit" name="submit" class="btn btn-success" value="สร้างรีวิว">
+                            <input type="text" name="idshop" id="idshop">
                             <a class="btn btn-primary" href="index.php">ย้อนกลับไป</a>
                         </div>
                     </form>
@@ -192,6 +191,7 @@ if (isset($_GET['idshop'])) {
             </div>
         </div>
     </div>
+
 
 
 
@@ -222,6 +222,38 @@ if (isset($_GET['idshop'])) {
         });
 
     });
+    </script>
+
+
+    <!-- <script>
+    /**
+     * ประกาศ function readURL()
+     * เพื่อทำการตรวจสอบว่า มีไฟล์ภาพที่กำหนดถูกอัพโหลดหรือไม่
+     * ถ้ามีไฟล์ภาพที่กำหนดถูกอัพโหลดอยู่ ให้แสดงไฟล์ภาพนั้นผ่าน elements ที่มี id="imgUpload"
+     */
+    function readURL(input) {
+        if (input.files[0]) {
+            var reader = new FileReader();
+            $('.figure').addClass('d-block');
+            reader.onload = function(e) {
+                console.log(e.target.result)
+                $('#imgUpload').attr('src', e.target.result).width(240);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script> -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
 </body>
 

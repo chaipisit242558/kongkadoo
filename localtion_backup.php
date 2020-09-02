@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script>
-    function ddlselect() {
-        var d = document.getElementById("country");
-        var displaytext = d.options[d.selectedIndex].text;
-        document.getElementById("txtvalue").value = displaytext;
-    }
-    </script>
-
-
-</head>
-
-<body>
-
-    <?php
+<?php
 // header("content-type: text/html; charset=utf-8");
 // header("Expires: Wed, 21 Aug 2013 13:13:13 GMT");
 // header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -32,15 +12,16 @@ $data = $_GET['data'];
 $val = $_GET['val'];
 
 if ($data == 'country') {
-    echo "<select id='country' name='country' onChange=\"dochange('geography', this.value)\" >";
+    echo "<select name='country' onChange=\"dochange('geography', this.value)\">";
     echo "<option value='0'>- เลือกจังหวัด -</option>\n";
     $result = mysql_query("select * from country order by country_name_th");
     while ($row = mysql_fetch_array($result)) {
         //echo "<option value='$row[country_name_th]' >$row[country_name_th]</option>";
         echo "<option value='$row[idcountry]' >$row[country_name_th]</option>";
+        $keepcountry = $row['country_name_th'];
 
     }
-    // echo "<input type='text' id='txtvalue'>";
+    //echo "<input type='text' name='countryname' id='countryname' value='" . $keepcountry . "'>";
 
 } else if ($data == 'geography') {
     echo "<select name='geography' onChange=\"dochange('province', this.value)\">";
@@ -49,6 +30,7 @@ if ($data == 'country') {
     while ($row = mysql_fetch_array($result)) {
         //echo "<option value='$row[GEO_NAME]' >$row[GEO_NAME]</option>";
         echo "<option value='$row[GEO_ID]' >$row[GEO_NAME]</option>";
+        $keepgeo = $row['GEO_NAME'];
 
     }
     //echo "<input type='text' name='geoname' id='geoname' value='" . $keepgeo . "'>";
@@ -59,7 +41,7 @@ if ($data == 'country') {
     while ($row = mysql_fetch_array($result)) {
         //echo "<option value='$row[PROVINCE_NAME]' >$row[PROVINCE_NAME]</option>";
         echo "<option value='$row[PROVINCE_ID]' >$row[PROVINCE_NAME]</option>";
-
+        $keeppro = $row['PROVINCE_NAME'];
     }
 } else if ($data == 'amphur') {
     echo "<select name='amphur' onChange=\"dochange('district', this.value)\">";
@@ -68,7 +50,7 @@ if ($data == 'country') {
     while ($row = mysql_fetch_array($result)) {
         //echo "<option value=\"$row[AMPHUR_NAME]\" >$row[AMPHUR_NAME]</option> ";
         echo "<option value=\"$row[AMPHUR_ID]\" >$row[AMPHUR_NAME]</option> ";
-
+        $keepam = $row['AMPHUR_NAME'];
     }
 } else if ($data == 'district') {
     echo "<select name='district'>\n";
@@ -77,7 +59,7 @@ if ($data == 'country') {
     while ($row = mysql_fetch_array($result)) {
         //echo "<option value=\"$row[DISTRICT_NAME]\" >$row[DISTRICT_NAME]</option> \n";
         echo "<option value=\"$row[DISTRICT_ID]\" >$row[DISTRICT_NAME]</option> \n";
-
+        $keepdis = $row['DISTRICT_NAME'];
     }
 }
 echo "</select>\n";
@@ -85,7 +67,3 @@ echo "</select>\n";
 echo mysql_error();
 mysql_close($conn);
 //closedb();
-?>
-</body>
-
-</html>

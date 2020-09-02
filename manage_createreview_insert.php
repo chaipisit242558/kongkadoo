@@ -6,11 +6,9 @@ $idusername = $_SESSION["idusername"];
 
 <?php
 include_once 'config.php';
-if (isset($_POST['content'])) {
-    $idshop = $_POST['selectuser_id'];
-    //echo $idshop;
-    $topic = $_POST['autocomplete'];
-    $content = $_POST['content'];
+if (isset($_POST['crereview_topic'])) {
+    $crereview_topic = $_POST['crereview_topic'];
+    $crereview_content = $_POST['crereview_content'];
 
 }
 //################## เพิ่มข้อมูล #####################
@@ -31,14 +29,14 @@ $pro_image = $new_image_name;
  */
 $date = date('Y-m-d H:i:s');
 
-$sql = "insert into  review (topic,content,datetime,pic,idmember,idshop)";
-$sql .= "values('" . $topic . "','" . $content . "','" . $date . "','','" . $idusername . "','" . $idshop . "')";
+$sql = "insert into  createreview (crereview_topic,crereview_content,crereview_date,crereview_pic,	crereview_username)";
+$sql .= "values('" . $crereview_topic . "','" . $crereview_content . "','" . $date . "','" . $crereview_pic . "','" . $idusername . "')";
 
 $result = mysql_query($sql) or die(mysql_error());
 //echo '<center><br>เพิ่มข้อมูลจำนวน ' . mysql_affected_rows() . ' record(s) เรียบร้อยแล้ว</center>';
 mysql_close($conn);
 
-echo "<META HTTP-EQUIV='Refresh' CONTENT='0;URL=shop_profile.php?idshop=" . $idshop . "'>";
+echo "<META HTTP-EQUIV='Refresh' CONTENT='0;URL=review.php'>";
 ?>
 <br />
 </body>
