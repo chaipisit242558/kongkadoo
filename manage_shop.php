@@ -63,7 +63,7 @@ $i = 1;
                                     <a class="nav-link" href="index.php">หน้าแรก <span
                                             class="sr-only">(current)</span></a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="review.php">รีวิว <span
                                             class="sr-only">(current)</span></a>
                                 </li>
@@ -71,10 +71,10 @@ $i = 1;
                                 <li class="nav-item">
                                     <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                             class="sr-only">(current)</span></a>
-                                </li>
+                                </li> -->
                                 <?php if ($idusername == "admin") {?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
+                                    <a class="nav-link" href="manage_shop.php">สร้างคีย์เวิร์ด <span
                                             class="sr-only">(current)</span></a>
                                 </li>
 
@@ -145,7 +145,7 @@ $i = 1;
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <label for="shop_name" class="col-sm-3 col-form-label">ชื่อร้านค้า</label>
+                                <label for="shop_name" class="col-sm-3 col-form-label">ชื่อ/คีย์เวิร์ด</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="shop_name" name="shop_name" required>
                                 </div>
@@ -173,9 +173,16 @@ $i = 1;
                             </div>
 
                             <div class="form-group row">
+                                <label for="shop_type" class="col-sm-3 col-form-label">ประเภท</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="shop_type" name="shop_type" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="country" class="col-sm-3 col-form-label">ประเทศ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="country" name="country" required>
+                                    <input type="text" class="form-control" id="country" name="country">
                                 </div>
                             </div>
                             <!-- <input type='text' name='txtvalue' id='txtvalue'> -->
@@ -183,30 +190,31 @@ $i = 1;
                             <div class="form-group row">
                                 <label for="geography" class="col-sm-3 col-form-label">ภูมิภาค</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="geography" name="geography" required>
+                                    <input type="text" class="form-control" id="geography" name="geography">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="province" class="col-sm-3 col-form-label">จังหวัด</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="province" name="province" required>
+                                    <input type="text" class="form-control" id="province" name="province">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="amphur" class="col-sm-3 col-form-label">อำเภอ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="amphur" name="amphur" required>
+                                    <input type="text" class="form-control" id="amphur" name="amphur">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="district" class="col-sm-3 col-form-label">ตำบล</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="district" name="district" required>
+                                    <input type="text" class="form-control" id="district" name="district">
                                 </div>
                             </div>
+
 
                             <!-- <div class="form-group row">
                                 <label for="village" class="col-sm-3 col-form-label">หมู่บ้าน</label>

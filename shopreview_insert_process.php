@@ -10,8 +10,9 @@ mysql_query("SET NAMES UTF8");
 if (isset($_POST['tarcomment'])) {
     $topic = $_POST['topic'];
     $tarcomment = $_POST['tarcomment'];
-    $idmember = $_POST['idmember'];
+    $username = $_POST['idmember'];
     $idshop = $_POST['idshop'];
+    $type = $_POST['type'];
 
     //echo $tarcomment;
     //echo $idreview;
@@ -21,8 +22,8 @@ if (isset($_POST['tarcomment'])) {
 $date = date('Y-m-d H:i:s');
 //$username = $_POST['username'];
 //echo $username;
-$sql = "insert into  review (topic,content,datetime,pic,idmember,idshop)";
-$sql .= "values('" . $topic . "','" . $tarcomment . "','" . $date . "','','" . $_POST['idmember'] . "','" . $_POST['idshop'] . "')";
+$sql = "insert into  review (topic,content,datetime,pic,idmember,idshop,type)";
+$sql .= "values('" . $topic . "','" . $tarcomment . "','" . $date . "','','" . $username . "','" . $idshop . "','" . $type . "')";
 //$sql .= "values('".$_POST['topic']."','".$_POST['content']."','".$date."','',".$_POST['idmember'].")";
 
 $result = mysql_query($sql) or die(mysql_error());

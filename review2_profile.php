@@ -5,9 +5,9 @@ $idusername = $_SESSION["idusername"];
 
 //===========================  select table shop ===============================
 
-if (isset($_GET['idreview'])) {
-    $idreview = $_GET['idreview'];
-    $sql = 'SELECT * from review WHERE idreview="' . $idreview . '"';
+if (isset($_GET['idreview2'])) {
+    $idreview2 = $_GET['idreview2'];
+    $sql = 'SELECT * from review2 WHERE idreview2="' . $idreview2 . '"';
     $result = mysql_query($sql) or die(mysql_error());
     $i = 1;
 
@@ -16,7 +16,7 @@ if (isset($_GET['idreview'])) {
 }
 
 //================================select table shopcomment=================================================
-$sql2 = 'SELECT * from review1 WHERE idreview=' . $idreview . ' order by idreview1 desc';
+$sql2 = 'SELECT * from review3 WHERE idreview2=' . $idreview2 . ' order by idreview3 desc';
 $result2 = mysql_query($sql2) or die(mysql_error());
 $j = 1;
 
@@ -136,12 +136,12 @@ function autolink($temp)
             <!-- <p align="center"> -->
             <div class="card">
                 <div class="card-header text-white bg-info mb-3">
-                    <?php echo "หัวข้อ : <a href='review_profile.php?idreview=" . $row['idreview'] . "'>" . $row['topic'] . "</a>" ?>
+                    <?php echo "หัวข้อ : <a href='review2_profile.php?idreview2=" . $row['idreview2'] . "'>" . $row['topic'] . "</a>" ?>
                 </div>
                 <div class="card-body">
                     <!-- <h5 class="card-title"><?php// echo $row['topic']; ?></h5> -->
                     <p class="card-text">
-                        <?php echo "<a href='review_profile.php?idreview=" . $row['idreview'] . "'>" . $row['content'] . "</a>" ?>
+                        <?php echo "<a href='review2_profile.php?idreview2=" . $row['idreview2'] . "'>" . $row['content'] . "</a>" ?>
                     </p>
                     <!-- <p class="card-text">
                         <?php //echo "E-mail : " . $row['shop_email'] . "  " . "โทรศัพท์ : " . $row['shop_phone']; ?></p>
@@ -181,7 +181,7 @@ function autolink($temp)
     <div class="row">
         <div class="col-md-8 mx-auto mt-5">
             <div class="card">
-                <form action="review_insert_process.php" method="POST" enctype="multipart/form-data">
+                <form action="review2_insert_process.php" method="POST" enctype="multipart/form-data">
                     <div class="card-header text-center text-white bg-info">
                         แสดงความคิดเห็น
                     </div>
@@ -217,11 +217,12 @@ function autolink($temp)
                     </div>
                     <div class="card-footer text-center text-white bg-info">
                         <input type="submit" name="submit" class="btn btn-success" value="แสดงความคิดเห็น">
-                        <input type="hidden" id="idreview" name="idreview" value="<?php echo $idreview ?>">
+                        <input type="hidden" id="idreview" name="idreview" value="<?php echo $row['idreview'] ?>">
                         <input type="hidden" id="idmember" name="idmember" value="<?php echo $idusername ?>">
                         <input type="hidden" id="idshop" name="idshop" value="<?php echo $row['idshop'] ?>">
                         <input type="hidden" id="type" name="type" value="<?php echo $row['type'] ?>">
-
+                        <input type="hidden" id="idreview1" name="idreview1" value="<?php echo $row['idreview1'] ?>">
+                        <input type="hidden" id="idreview2" name="idreview2" value="<?php echo $row['idreview2'] ?>">
                         <!-- <a class="btn btn-primary" href="index.php">ย้อนกลับไป</a> -->
                     </div>
                 </form>
@@ -241,8 +242,8 @@ while ($row2 = mysql_fetch_assoc($result2)) {
     $keyword = $row2['content'];
     echo "<div class='card'>";
     echo "<div class='card-body text-white bg-info'>";
-    echo "<h5 class='card-title'><a href='review1_profile.php?idreview1=" . $row2['idreview1'] . "'>" . $row2['topic'] . "</h5>";
-    echo "<p class='card-text'> <a href='review1_profile.php?idreview1=" . $row2['idreview1'] . "'>" . $row2['content'] . "</a></p>";
+    echo "<h5 class='card-title'><a href='review3_profile.php?idreview3=" . $row2['idreview3'] . "'>" . $row2['topic'] . "</h5>";
+    echo "<p class='card-text'> <a href='review3_profile.php?idreview3=" . $row2['idreview3'] . "'>" . $row2['content'] . "</a></p>";
     //echo "<p class='card-text'> " . autolink($keyword) . "</p>";
     echo "</div>";
     echo "</div>";

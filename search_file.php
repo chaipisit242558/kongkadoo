@@ -8,7 +8,7 @@ if (isset($_POST['search'])) {
     $search = '%' . $_POST['search'] . '%';
     $sql = 'SELECT * FROM shop';
     $sql .= ' WHERE (shop_name LIKE"' . $search . '") or (shop_phone LIKE "' . $search . '") or (shop_email LIKE "' . $search . '") or (shop_explain LIKE "' . $search . '") ';
-    $sql .= ' and (shop_district LIKE"' . $search . '") or (shop_amphur LIKE "' . $search . '") or (shop_province LIKE "' . $search . '") or (shop_geography LIKE "' . $search . '") or (shop_country LIKE "' . $search . '") order by idshop desc';
+    $sql .= ' and (shop_district LIKE"' . $search . '") or (shop_amphur LIKE "' . $search . '") or (shop_province LIKE "' . $search . '") or (shop_geography LIKE "' . $search . '") or (shop_country LIKE "' . $search . '") or (shop_type LIKE "' . $search . '") order by idshop desc';
     // $sql .= ' or (d.DISTRICT_NAME LIKE "' . $search . '") or (a.AMPHUR_NAME LIKE "' . $search . '") or (p.PROVINCE_NAME LIKE "' . $search . '") or (g.GEO_NAME LIKE "' . $search . '")';
     // $sql .= ' or (ct.country_name_th LIKE "' . $search . '") order by s.idshop desc';
 
@@ -35,17 +35,17 @@ $i = 1;
                             <li class="nav-item active">
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="review.php">รีวิว <span class="sr-only">(current)</span></a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
-                            </li>
+                            </li> -->
                             <?php if ($idusername == "admin") {?>
                             <li class="nav-item">
-                                <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
+                                <a class="nav-link" href="manage_shop.php">สร้างคีย์เวิร์ด <span
                                         class="sr-only">(current)</span></a>
                             </li>
 
@@ -131,7 +131,7 @@ while ($row = mysql_fetch_assoc($result)) {
     if ($i == 1) {
         echo "<div class='card'>";
         echo "<div class='card-header text-white bg-info mb-3'>";
-        echo "ชื่อร้าน : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a>";
+        echo "หัวข้อ : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a>";
         echo "</div>";
         echo "<div class='card-body text-white'>";
         //echo "<h6 class='card-title'>".'ความคิดเห็น'.$i."</h6>";

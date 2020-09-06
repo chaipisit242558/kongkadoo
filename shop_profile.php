@@ -56,17 +56,17 @@ function autolink($temp)
                             <li class="nav-item active">
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="review.php">รีวิว <span class="sr-only">(current)</span></a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
-                            </li>
+                            </li> -->
                             <?php if ($idusername == "admin") {?>
                             <li class="nav-item">
-                                <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
+                                <a class="nav-link" href="manage_shop.php">สร้างคีย์เวิร์ด <span
                                         class="sr-only">(current)</span></a>
                             </li>
 
@@ -136,48 +136,112 @@ function autolink($temp)
             <!-- <p align="center"> -->
             <div class="card">
                 <div class="card-header text-white bg-info mb-3">
-                    <?php echo "ชื่อร้าน : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a>" ?>
+                    <?php echo "หัวข้อ : <a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_name'] . "</a>" ?>
                 </div>
                 <div class="card-body">
                     <!-- <h5 class="card-title"><?php// echo $row['topic']; ?></h5> -->
-                    <p class="card-text"><?php echo $row['shop_explain']; ?></p>
                     <p class="card-text">
-                        <?php echo "E-mail : " . $row['shop_email'] . "  " . "โทรศัพท์ : " . $row['shop_phone']; ?></p>
+                        <?php echo "<a href='shop_profile.php?idshop=" . $row['idshop'] . "'>" . $row['shop_explain'] . "</a>" ?>
+                    </p>
+                    <p class="card-text">
+                        <?php echo "<a href='shop_profile.php?idshop=" . $row['idshop'] . "'>E-mail : " . $row['shop_email'] . "  " . "โทรศัพท์ : " . $row['shop_phone'] . "</a>" ?>
+                    </p>
 
                     <img width="200" height="200" src="Image/<?php echo $row['shop_pic']; ?>" alt="..."
                         class="img-thumbnail">
                     <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 </div>
-                <div class="card-footer text-white bg-info">
-                    <?php echo "ร้านคุณ : <a href='member_profile.php?idmember=" . $row['shop_username'] . "'>" . $row['shop_username'] . "</a>" ?>
-                </div>
+                <!-- <div class="card-footer text-white bg-info">
+                    <?php //echo "ร้านคุณ : <a href='member_profile.php?idmember=" . $row['shop_username'] . "'>" . $row['shop_username'] . "</a>" ?>
+                </div> -->
             </div>
 
             <!--<img src=".'Image/'.<?php //$row['pic']?>." alt="..." class="img-thumbnail">-->
             <!-- </p> -->
 
             <!-- // form Comment -->
-            <p>
+            <!-- <p>
             <H5>แสดงความคิดเห็นต่อร้านค้า</H5>
             <form name="comment" action="shopcomment_insert_process.php" method="post" class="form-horizontal">
                 <textarea name="tarcomment" class="form-control"></textarea>
                 <p></p>
                 <button type="submit" class="btn btn-primary">แสดงความคิดเห็น</button>
-                <input type="hidden" id="idshop" name="idshop" value="<?php echo $idshop ?>">
-                <input type="hidden" id="idshop" name="topic" value="<?php echo $row['shop_name'] ?>">
-                <input type="hidden" id="idshop" name="idmember" value="<?php echo $idusername ?>">
+                <input type="hidden" id="idshop" name="idshop" value="<?php //echo $idshop ?>">
+                <input type="hidden" id="idshop" name="topic" value="<?php //echo $row['shop_name'] ?>">
+                <input type="hidden" id="idshop" name="idmember" value="<?php //echo $idusername ?>">
 
             </form>
-            </p>
+            </p> -->
 
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto mt-5">
+            <div class="card">
+                <form action="shopreview_insert_process.php" method="POST" enctype="multipart/form-data">
+                    <div class="card-header text-center text-white bg-info">
+                        แสดงความคิดเห็น
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            <label for="topic" class="col-sm-2 col-form-label">หัวข้อ</label>
+                            <div class="col-sm-9">
+                                <input type='text' id='topic' name='topic' class="form-control" required>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row">
+                            <label for="content" class="col-sm-2 col-form-label">เนื้อหา</label>
+                            <div class="col-sm-9">
+                                <textarea cols="10" rows="5" class="form-control" id="tarcomment" name="tarcomment"
+                                    required></textarea>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group row">
+                                <label for="fileUpload" class="col-sm-3 col-form-label">อัพโหลดรูปภาพ</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" id="fileUpload" name="fileUpload"
+                                        onchange="readURL(this)">
+                                </div>
+                            </div> -->
+                        <figure class="figure text-center d-none">
+                            <img id="imgUpload" class="figure-img img-fluid rounded" alt="">
+                        </figure>
+                    </div>
+                    <div class="card-footer text-center text-white bg-info">
+                        <input type="submit" name="submit" class="btn btn-success" value="แสดงความคิดเห็น">
+                        <input type="hidden" id="idshop" name="idshop" value="<?php echo $idshop ?>">
+                        <input type="hidden" id="idmember" name="idmember" value="<?php echo $idusername ?>">
+                        <input type="hidden" id="type" name="type" value="<?php echo $row['shop_type']; ?>">
+                        <!-- <a class="btn btn-primary" href="index.php">ย้อนกลับไป</a> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
             <?php
 
 while ($row2 = mysql_fetch_assoc($result2)) {
     $keyword = $row2['content'];
     echo "<div class='card'>";
     echo "<div class='card-body text-white bg-info'>";
-    //echo "<h6 class='card-title'>" . 'ความคิดเห็น' . $j . "</h6>";
-    echo "<p class='card-text'> <a href='comment_profile.php?idreview=" . $row2['idreview'] . "'>" . $row2['content'] . "</a></p>";
+    echo "<h5 class='card-title'><a href='review_profile.php?idreview=" . $row2['idreview'] . "'>" . $row2['topic'] . "</h5>";
+    echo "<p class='card-text'> <a href='review_profile.php?idreview=" . $row2['idreview'] . "'>" . $row2['content'] . "</a></p>";
     //echo "<p class='card-text'> " . autolink($keyword) . "</p>";
     echo "</div>";
     echo "</div>";
@@ -190,8 +254,6 @@ mysql_free_result($result2);
 //mysql_close($conn);
 
 ?>
-
-
 
         </div>
     </div>

@@ -71,7 +71,7 @@ if (isset($_GET['idshop'])) {
                                     <a class="nav-link" href="index.php">หน้าแรก <span
                                             class="sr-only">(current)</span></a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="review.php">รีวิว <span
                                             class="sr-only">(current)</span></a>
                                 </li>
@@ -79,10 +79,10 @@ if (isset($_GET['idshop'])) {
                                 <li class="nav-item">
                                     <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                             class="sr-only">(current)</span></a>
-                                </li>
+                                </li> -->
                                 <?php if ($idusername == "admin") {?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
+                                    <a class="nav-link" href="manage_shop.php">สร้างคีย์เวิร์ด <span
                                             class="sr-only">(current)</span></a>
                                 </li>
 
@@ -155,7 +155,7 @@ if (isset($_GET['idshop'])) {
                         <div class="card-body">
 
                             <div class="form-group row">
-                                <label for="topic" class="col-sm-3 col-form-label">ชื่อเรื่อง/หมวดหมู่</label>
+                                <label for="topic" class="col-sm-3 col-form-label">หัวข้อรีวิว</label>
                                 <div class="col-sm-9">
                                     <input type='text' id='crereview_topic' name='crereview_topic' class="form-control"
                                         required>

@@ -44,17 +44,17 @@ $i = 1;
                                 <a class="nav-link" href="index.php">หน้าแรก <span class="sr-only">(current)</span></a>
                             </li>
 
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="review.php">รีวิว <span class="sr-only">(current)</span></a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_review.php">สร้างรีวิว <span
                                         class="sr-only">(current)</span></a>
-                            </li>
+                            </li> -->
                             <?php if ($idusername == "admin") {?>
                             <li class="nav-item">
-                                <a class="nav-link" href="manage_shop.php">สร้างร้านค้า <span
+                                <a class="nav-link" href="manage_shop.php">สร้างคีย์เวิร์ด <span
                                         class="sr-only">(current)</span></a>
                             </li>
 
